@@ -7,8 +7,6 @@ from urllib.parse import urljoin
 
 
 class Pipeline:
-    MEDIA_MODEL = "qwen3-vl-235b-thinking-fp8"
-    DEFAULT_MODEL = "ring-1t-fp8"
     MEDIA_EXTENSIONS = (
         ".png",
         ".jpg",
@@ -43,7 +41,7 @@ class Pipeline:
         # The identifier must be unique across all pipelines.
         # The identifier must be an alphanumeric string that can include underscores or hyphens. It cannot contain spaces, special characters, slashes, or backslashes.
         # self.id = "openai_pipeline"
-        self.name = "OpenAI Pipeline"
+        self.name = "Default Open Pipeline"
         self.valves = self.Valves(
             **{
                 "OPENAI_API_KEY": os.getenv(
@@ -51,6 +49,12 @@ class Pipeline:
                 ),
                 "OPENAI_BASE_URL": os.getenv(
                     "OPENAI_BASE_URL", "https://api.openai.com/v1"
+                ),
+                "DEFAULT_MEDIA_MODEL": os.getenv(
+                    "DEFAULT_MEDIA_MODEL", "qwen3-vl-235b-thinking-fp8"
+                ),
+                "DEFAULT_MODEL": os.getenv(
+                    "DEFAULT_MODEL", "ring-1t-fp8"
                 ),
             }
         )
@@ -146,8 +150,8 @@ class Pipeline:
 
     def _select_model(self, user_message: str, messages: List[dict], body: dict) -> str:
         if self._is_media_analysis_request(user_message, messages, body):
-            return self.MEDIA_MODEL
-        return self.DEFAULT_MODEL
+            return self.valves.DEFAULT_MEDIA_MODEL
+        return self.valves.DEFAULT_MODEL
 
     def pipe(
         self, user_message: str, model_id: str, messages: List[dict], body: dict
