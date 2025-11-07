@@ -33,6 +33,8 @@ class Pipeline:
     class Valves(BaseModel):
         OPENAI_API_KEY: str = ""
         OPENAI_BASE_URL: str = "https://api.openai.com/v1"
+        DEFAULT_MEDIA_MODEL: str = ""
+        DEFAULT_MODEL: str = ""
         pass
 
     def __init__(self):
