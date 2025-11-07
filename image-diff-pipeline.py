@@ -43,7 +43,7 @@ class Pipeline:
         # The identifier must be unique across all pipelines.
         # The identifier must be an alphanumeric string that can include underscores or hyphens. It cannot contain spaces, special characters, slashes, or backslashes.
         # self.id = "openai_pipeline"
-        self.name = "Default Open Pipeline"
+        self.name = "Default Pipeline Fork (Content vs Text)"
         self.valves = self.Valves(
             **{
                 "OPENAI_API_KEY": os.getenv(
